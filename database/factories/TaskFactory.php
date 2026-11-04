@@ -21,6 +21,7 @@ class TaskFactory extends Factory
             'title' => fake()->realText(20),
             'description' => fake()->optional()->realText(80),
             'is_done' => fake()->boolean(30),
+            'user_id' => \App\Models\User::factory(),
         ];
     }
 }
