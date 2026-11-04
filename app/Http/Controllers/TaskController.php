@@ -27,7 +27,7 @@ class TaskController extends Controller
     {
         $task = Task::create($request->validated());
 
-        return (new TaskResource($task))->response()->setStatusCode(201);
+        return new TaskResource($task);
     }
 
     /**
