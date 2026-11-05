@@ -15,7 +15,8 @@ class TaskController extends Controller
     {
         $request->validate([
             'is_done' => ['sometimes', 'boolean'],
-            'sort' => ['sometimes', 'in:due_date,created_at'],
+            'priority' => ['sometimes', 'in:low,medium,high'],
+            'sort' => ['sometimes', 'in:due_date,created_at,priority'],
         ]);
 
         $query = $request->user()->tasks();
@@ -24,9 +25,15 @@ class TaskController extends Controller
             $query->where('is_done', $request->boolean('is_done'));
         }
 
+        if ($request->has('priority')) {
+            $query->where('priority', $request->input('priority'));
+        }
+
         if ($request->input('sort') === 'due_date') {
-            // 期限なしのタスクは最後にする
             $query->orderByRaw('due_date IS NULL')->orderBy('due_date');
+        } elseif ($request->input('sort') === 'priority') {
+            // 高い順(high → medium → low)
+            $query->orderByRaw("CASE priority WHEN 'high' THEN 1 WHEN 'medium' THEN 2 ELSE 3 END");
         } else {
             $query->latest();
         }

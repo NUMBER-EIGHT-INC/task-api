@@ -11,10 +11,11 @@ class Task extends Model
     /** @use HasFactory<\Database\Factories\TaskFactory> */
     use HasFactory;
 
-    protected $fillable = ['title', 'description', 'due_date', 'is_done'];
+    protected $fillable = ['title', 'description', 'due_date', 'is_done', 'priority'];
 
     protected $attributes = [
         'is_done' => false,
+        'priority' => 'medium'
     ];
 
     protected function casts(): array
