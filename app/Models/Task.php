@@ -11,7 +11,7 @@ class Task extends Model
     /** @use HasFactory<\Database\Factories\TaskFactory> */
     use HasFactory;
 
-    protected $fillable = ['title', 'description', 'is_done'];
+    protected $fillable = ['title', 'description', 'due_date', 'is_done'];
 
     protected $attributes = [
         'is_done' => false,
@@ -21,6 +21,7 @@ class Task extends Model
     {
         return [
             'is_done' => 'boolean',
+            'due_date' => 'date',
         ];
     }
 

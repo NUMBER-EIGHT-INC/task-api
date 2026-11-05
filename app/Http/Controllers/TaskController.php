@@ -13,9 +13,25 @@ class TaskController extends Controller
 {
     public function index(Request $request)
     {
-        $tasks = $request->user()->tasks()->latest()->paginate(10);
+        $request->validate([
+            'is_done' => ['sometimes', 'boolean'],
+            'sort' => ['sometimes', 'in:due_date,created_at'],
+        ]);
 
-        return TaskResource::collection($tasks);
+        $query = $request->user()->tasks();
+
+        if ($request->has('is_done')) {
+            $query->where('is_done', $request->boolean('is_done'));
+        }
+
+        if ($request->input('sort') === 'due_date') {
+            // 期限なしのタスクは最後にする
+            $query->orderByRaw('due_date IS NULL')->orderBy('due_date');
+        } else {
+            $query->latest();
+        }
+
+        return TaskResource::collection($query->paginate(10)->withQueryString());
     }
 
     public function store(StoreTaskRequest $request)

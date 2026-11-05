@@ -21,6 +21,7 @@ class TaskResource extends JsonResource
             'is_done' => $this->is_done,
             'created_at' => $this->created_at?->toIso8601String(),
             'updated_at' => $this->updated_at?->toIso8601String(),
+            'due_date' => $this->due_date?->format('Y-m-d'),
         ];
     }
 }

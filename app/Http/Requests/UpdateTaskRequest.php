@@ -18,6 +18,7 @@ class UpdateTaskRequest extends FormRequest
             'title' => ['sometimes', 'required', 'string', 'max:100'],
             'description' => ['sometimes', 'nullable', 'string', 'max:1000'],
             'is_done' => ['sometimes', 'boolean'],
+            'due_date' => ['sometimes', 'nullable', 'date_format:Y-m-d'],
         ];
     }
 }
